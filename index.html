@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Delivery for You 💝</title>
+  <meta name="description" content="A tiny page to say: open the door — I sent you a gift." />
+  <style>
+    :root {
+      --bg1: #0b1020;
+      --bg2: #1a0b2e;
+      --card: rgba(255,255,255,0.08);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.72);
+      --accent: #ff4d8d;
+      --accent2: #7c5cff;
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+      --radius: 22px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--text);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(900px 600px at 20% 15%, rgba(255,77,141,0.20), transparent 60%),
+        radial-gradient(900px 600px at 80% 20%, rgba(124,92,255,0.22), transparent 55%),
+        radial-gradient(900px 600px at 50% 90%, rgba(255,180,70,0.10), transparent 55%),
+        linear-gradient(160deg, var(--bg1), var(--bg2));
+      overflow-x: hidden;
+    }
+    .wrap {
+      width: min(720px, 92vw);
+      padding: 26px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+    .sparkle {
+      position: absolute;
+      inset: -2px;
+      background: radial-gradient(500px 220px at 15% 15%, rgba(255,77,141,0.28), transparent 60%),
+                  radial-gradient(420px 240px at 85% 25%, rgba(124,92,255,0.30), transparent 62%);
+      pointer-events: none;
+      filter: blur(0.5px);
+      opacity: 0.9;
+    }
+    h1 {
+      margin: 0 0 8px 0;
+      font-size: clamp(28px, 4vw, 40px);
+      letter-spacing: -0.02em;
+    }
+    p {
+      margin: 0 0 16px 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+    .pill {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: rgba(255,255,255,0.86);
+      font-size: 13px;
+      margin-bottom: 18px;
+      user-select: none;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .btnRow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    button, a.btn {
+      appearance: none;
+      border: 0;
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.08s ease, filter 0.2s ease, background 0.2s ease;
+    }
+    button:active, a.btn:active { transform: translateY(1px) scale(0.99); }
+    .primary {
+      background: linear-gradient(135deg, var(--accent), #ff7a59);
+      color: #fff;
+    }
+    .secondary {
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: rgba(255,255,255,0.92);
+    }
+    .note {
+      margin-top: 18px;
+      padding: 14px 14px;
+      border-radius: 14px;
+      border: 1px dashed rgba(255,255,255,0.24);
+      background: rgba(0,0,0,0.14);
+      color: rgba(255,255,255,0.82);
+      font-size: 14px;
+    }
+    .footer {
+      margin-top: 14px;
+      color: rgba(255,255,255,0.55);
+      font-size: 12px;
+      text-align: center;
+    }
+    .big {
+      font-size: clamp(20px, 2.6vw, 26px);
+      color: rgba(255,255,255,0.92);
+      margin-top: 6px;
+      margin-bottom: 0;
+    }
+    .heartbeat {
+      display: inline-block;
+      animation: beat 1.4s infinite ease-in-out;
+      transform-origin: center;
+    }
+    @keyframes beat {
+      0%, 100% { transform: scale(1); }
+      40% { transform: scale(1.12); }
+      70% { transform: scale(0.98); }
+    }
+    .confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .piece {
+      position: absolute;
+      width: 10px;
+      height: 14px;
+      opacity: 0.9;
+      border-radius: 3px;
+      animation: fall 1.35s linear forwards;
+    }
+    @keyframes fall {
+      to { transform: translateY(120vh) rotate(520deg); opacity: 0.95; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="confetti" id="confetti"></div>
+
+  <div class="wrap">
+    <div class="card" role="main" aria-label="Open the door message">
+      <div class="sparkle"></div>
+
+      <div class="pill">📦 Delivery status: <strong>At your door</strong></div>
+
+      <h1>Hey fiancé <span class="heartbeat">💗</span></h1>
+      <p class="big">I sent you a gift.</p>
+      <p>
+        Please open the door 🙈<br/>
+        (It’ll only take a second!)
+      </p>
+
+      <div class="btnRow">
+        <button class="primary" id="openBtn">🚪 I’m opening!</button>
+        <button class="secondary" id="ringBtn">🔔 Ring sound</button>
+        <a class="btn secondary" id="smsBtn" href="#">📲 Text me “opened”</a>
+      </div>
+
+      <div class="note" id="note">
+        Tip: If your phone is on silent, the ring sound might not play — but the message still works 🙂
+      </div>
+
+      <div class="footer">Made with love ✨</div>
+    </div>
+  </div>
+
+  <script>
+    // Customize these:
+    const HER_NAME = "Zina";      // shown only if you want to use it later
+    const YOUR_PHONE = "";           // optional: e.g. "+13125551234" or "3125551234"
+    const TEXT_MESSAGE = "Opened! 💕";
+
+    const confettiEl = document.getElementById("confetti");
+    const noteEl = document.getElementById("note");
+
+    function popConfetti() {
+      const colors = ["#ff4d8d", "#7c5cff", "#ffd166", "#4dd4ff", "#9bff7a"];
+      for (let i = 0; i < 70; i++) {
+        const piece = document.createElement("div");
+        piece.className = "piece";
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.top = (-10 - Math.random() * 20) + "vh";
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.transform = `translateY(0) rotate(${Math.random() * 180}deg)`;
+        piece.style.animationDuration = (1.1 + Math.random() * 0.8) + "s";
+        confettiEl.appendChild(piece);
+        piece.addEventListener("animationend", () => piece.remove());
+      }
+    }
+
+    // Simple doorbell tone using Web Audio (no external files)
+    function ring() {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) {
+        noteEl.textContent = "Your browser doesn’t support the ring sound — but the message still works 🙂";
+        return;
+      }
+
+      const ctx = new AudioCtx();
+      const now = ctx.currentTime;
+
+      function tone(freq, start, duration) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.value = freq;
+
+        gain.gain.setValueAtTime(0.0001, start);
+        gain.gain.exponentialRampToValueAtTime(0.35, start + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(start);
+        osc.stop(start + duration + 0.02);
+      }
+
+      // "ding-dong"
+      tone(880, now + 0.00, 0.28);
+      tone(660, now + 0.34, 0.34);
+
+      setTimeout(() => ctx.close(), 1200);
+    }
+
+    document.getElementById("openBtn").addEventListener("click", () => {
+      popConfetti();
+      noteEl.textContent = "Yay 😄 Opening the door vibes activated. (If you’re reading this… please open it right now 💝)";
+      ring();
+    });
+
+    document.getElementById("ringBtn").addEventListener("click", () => ring());
+
+    const smsBtn = document.getElementById("smsBtn");
+    if (YOUR_PHONE.trim()) {
+      smsBtn.href = `sms:${encodeURIComponent(YOUR_PHONE)}?&body=${encodeURIComponent(TEXT_MESSAGE)}`;
+    } else {
+      // If no phone number provided, just make it a nice copy-to-clipboard action
+      smsBtn.href = "#";
+      smsBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        try {
+          await navigator.clipboard.writeText(TEXT_MESSAGE);
+          noteEl.textContent = "Copied “Opened! 💕” — paste it in iMessage/Text and send it 😊";
+        } catch {
+          noteEl.textContent = "Couldn’t auto-copy on this browser — just text me: “Opened! 💕”";
+        }
+      });
+    }
+  </script>
+</body>
+</html>
